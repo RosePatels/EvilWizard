@@ -2,7 +2,8 @@ import Phaser from "phaser";
 import mp3 from "../assets/Orbital\ Colossus.mp3";
 import background from "../assets/scifi_platform_BG1.jpg";
 import tiles from "../assets/scifi_platformTiles_32x32.png";
-import star from "../assets/star.png"
+import star from "../assets/star.png";
+import ball from "../assets/ball.png";
 import { accelerate, decelerate } from "../utils";
 
 let box;
@@ -22,19 +23,22 @@ export default new Phaser.Class({
       frameHeight: 32
     });
 
-    this.load.image("star", star);
+    this.load.spritesheet("ball", ball, {
+      frameWidth: 100,
+      frameHeight: 100
+    });
   },
   create: function create() {
     this.add.image(400, 300, "background");
 
-    const stars = this.physics.add.group({
-      key: 'star',
+    const balls = this.physics.add.group({
+      key: 'ball',
       repeat: 11,
-      setScale: {x: 0.2, y: 0.2 },
+      setScale: {x: 0.6, y: 0.6 },
       setXY: { x:400, y: 300 }
     });
 
-    stars.children.iterate(function (child) {
+    balls.children.iterate(function (child) {
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
       child.setVelocityX(150 - Math.random() * 300);
       child.setVelocityY(150 - Math.random() * 300);
@@ -49,16 +53,16 @@ export default new Phaser.Class({
     box = this.physics.add.image(400, 600, "tiles", 15);
 
 
-    const processCollision = (box, star) => {
-      star.destroy();
-      const starsLeft = stars.countActive();
-      if (starsLeft === 0) {
+    const processCollision = (box, ball) => {
+      ball.destroy();
+      const ballsLeft = balls.countActive();
+      if (ballsLeft === 0) {
         this.scene.start('winscreen');
       }
     }
 
     this.physics.add.collider(
-      stars,
+      balls,
       box,
       processCollision,
       null,
