@@ -39,12 +39,13 @@ export default new Phaser.Class({
       child.setVelocityX(150 - Math.random() * 300);
       child.setVelocityY(150 - Math.random() * 300);
       child.setBounce(1, 1);
-      child.setCollideWorldBounds(true);
+      //don't want stars to bounce
+      child.setCollideWorldBounds(false);
     });
 
     cursors = this.input.keyboard.createCursorKeys();
 
-    box = this.physics.add.image(400, 100, "tiles", 15);
+    box = this.physics.add.image(400, 600, "tiles", 15);
 
     const processCollision = (box, star) => {
       star.destroy();
@@ -63,7 +64,7 @@ export default new Phaser.Class({
     );
 
 
-    box.setBounce(1, 1);
+    // box.setBounce(1, 1);
     box.setCollideWorldBounds(true);
   },
   update: function () {
@@ -75,9 +76,9 @@ export default new Phaser.Class({
       box.setVelocity(x, y)
     }
 
-    if (cursors.up.isDown) box.setVelocityY(accelerate(velocity.y, -1));
+    // if (cursors.up.isDown) box.setVelocityY(accelerate(velocity.y, -1));
     if (cursors.right.isDown) box.setVelocityX(accelerate(velocity.x, 1));
-    if (cursors.down.isDown) box.setVelocityY(accelerate(velocity.y, 1));
+    // if (cursors.down.isDown) box.seßtVelocityY(accelerate(velocity.y, 1));
     if (cursors.left.isDown) box.setVelocityX(accelerate(velocity.x, -1));
   }
 });
