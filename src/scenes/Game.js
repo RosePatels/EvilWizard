@@ -45,7 +45,9 @@ export default new Phaser.Class({
 
     cursors = this.input.keyboard.createCursorKeys();
 
+    //try physics
     box = this.physics.add.image(400, 600, "tiles", 15);
+
 
     const processCollision = (box, star) => {
       star.destroy();
@@ -68,17 +70,17 @@ export default new Phaser.Class({
     box.setCollideWorldBounds(true);
   },
   update: function () {
-    const { velocity } = box.body;
-
-    if (cursors.space.isDown) {
-      const x = decelerate(velocity.x);
-      const y = decelerate(velocity.y);
-      box.setVelocity(x, y)
-    }
-
+    const { velocity, x, y } = box.body;
+    console.log(box);
+    // if (cursors.space.isDown) {
+    //   const x = decelerate(velocity.x);
+    //   const y = decelerate(velocity.y);
+    //   box.setVelocity(x, y)
+    // }
+    
     // if (cursors.up.isDown) box.setVelocityY(accelerate(velocity.y, -1));
-    if (cursors.right.isDown) box.setVelocityX(accelerate(velocity.x, 1));
+    if (cursors.right.isDown) box.x += 15
     // if (cursors.down.isDown) box.seßtVelocityY(accelerate(velocity.y, 1));
-    if (cursors.left.isDown) box.setVelocityX(accelerate(velocity.x, -1));
+    if (cursors.left.isDown) box.x -= 15;
   }
 });
